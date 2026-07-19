@@ -1,6 +1,10 @@
 # Library Management System
 
-A RESTful Library Management System built with Spring Boot.
+A RESTful Library Management System built with **Spring Boot** following a layered architecture. 
+The project provides complete CRUD operations 
+for managing Authors, Books, Members, and Loans.
+
+---
 
 ## Technologies
 
@@ -10,66 +14,128 @@ A RESTful Library Management System built with Spring Boot.
 - PostgreSQL
 - Lombok
 - MapStruct
+- Jakarta Validation
 - Swagger / OpenAPI
+- JUnit 5
+- Mockito
+- MockMvc
+
+---
 
 ## Features
 
-- CRUD APIs for Authors, Books, Members and Loans
+- RESTful CRUD APIs
 - Layered Architecture (Controller → Service → Repository)
-- DTO Mapping with MapStruct
+- DTO Mapping using MapStruct
 - Input Validation
 - Global Exception Handling
-- Pagination
-- Sorting
+- Pagination & Sorting
+- Swagger/OpenAPI Documentation
+- Unit Testing
+- Controller Testing
+
+---
+
 ## Validation
 
-The project uses Jakarta Validation annotations such as:
+The project uses Jakarta Validation annotations including:
 
-- @NotBlank
-- @NotNull
-- @Email
-- @Size
-- @Min
+- `@NotBlank`
+- `@NotNull`
+- `@Email`
+- `@Size`
+- `@Min`
 
-
-### Pagination Example
-
-GET /api/authors?page=0&size=5&sortBy=id&sortDirection=asc
-
+---
 
 ## Exception Handling
 
-Implemented centralized exception handling using:
+Centralized exception handling is implemented using:
 
-- @ControllerAdvice
-- @ExceptionHandler
-- ResourceNotFoundException
+- `@ControllerAdvice`
+- `@ExceptionHandler`
+- `ResourceNotFoundException`
+
+---
+
+## Pagination & Sorting
+
+Example request:
+
+```http
+GET /api/authors?page=0&size=5&sortBy=id&sortDirection=asc
+```
+
+---
 
 ## API Documentation
 
-Swagger UI is available after running the application.
+Swagger UI is available after starting the application.
 
-Open the following URL in your browser:
-
+```
 http://localhost:8080/swagger-ui/index.html
+```
 
-The API documentation includes:
+The documentation includes:
 
-- Author endpoints
-- Book endpoints
-- Member endpoints
-- Loan endpoints
-- Request/Response schemas
-- HTTP status codes
-- 
+- Author API
+- Book API
+- Member API
+- Loan API
+- Request & Response Schemas
+- HTTP Status Codes
+
+---
+
+## Testing
+
+The project includes both **Service Layer Unit Tests** and **Controller Layer Tests**.
+
+### Service Tests
+
+- AuthorServiceImplTest
+- BookServiceImplTest
+- MemberServiceImplTest
+- LoanServiceImplTest
+
+### Controller Tests
+
+- AuthorControllerTest
+- BookControllerTest
+- MemberControllerTest
+- LoanControllerTest
+
+Testing technologies:
+
+- JUnit 5
+- Mockito
+- MockMvc
+
+---
 
 ## Run the Project
 
-1. Clone the repository.
-2. Configure PostgreSQL database.
-3. Update the database credentials in `application.yaml`.
-4. Run the application.
-5. Open Swagger UI to test the endpoints.
+1. Clone the repository
+
+```bash
+git clone <https://github.com/xedice616/devjoint_week1_checkpoint7>
+```
+
+2. Configure PostgreSQL.
+
+3. Update database credentials in:
+
+```yaml
+application.yaml
+```
+
+4. Start the application.
+
+5. Open Swagger UI.
+
+---
 
 ## Author
+
+**Khadija Ahmadova**
 ahmedova_k
