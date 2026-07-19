@@ -47,11 +47,21 @@ Implemented centralized exception handling using:
 
 ## API Documentation
 
-After running the application, Swagger UI is available at:
+Swagger UI is available after running the application.
 
-```
+Open the following URL in your browser:
+
 http://localhost:8080/swagger-ui/index.html
-```
+
+The API documentation includes:
+
+- Author endpoints
+- Book endpoints
+- Member endpoints
+- Loan endpoints
+- Request/Response schemas
+- HTTP status codes
+- 
 
 ## Run the Project
 
