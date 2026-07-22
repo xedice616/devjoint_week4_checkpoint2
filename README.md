@@ -135,6 +135,19 @@ application.yaml
 
 ---
 
+
+## Environment Variables
+
+This project uses environment variables for sensitive configuration.
+
+Required:
+
+- DB_PASSWORD
+
+Example:
+
+password: ${DB_PASSWORD}
+
 ## Author
 
 **Khadija Ahmadova**
