@@ -19,8 +19,7 @@ import org.slf4j.LoggerFactory;
 public class GlobalExceptionHandler {
 
 
-    private static final Logger logger =
-            LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 
 
@@ -36,6 +35,25 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleEmailAlreadyExists(
+            EmailAlreadyExistsException ex) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.CONFLICT.value())
+                .error("Conflict")
+                .message(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(
+                response,
+                HttpStatus.CONFLICT
+        );
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -57,13 +75,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
 
-        logger.error("Unexpected exception occurred", ex);
+        ex.printStackTrace();
 
         ErrorResponse response = ErrorResponse.builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .error("Internal Server Error")
-                .message("An unexpected error occurred. Please try again later.")
+                .message(ex.getMessage())
                 .build();
 
         return new ResponseEntity<>(response,

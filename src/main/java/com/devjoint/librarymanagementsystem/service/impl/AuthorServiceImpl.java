@@ -32,18 +32,13 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorResponseDto getAuthorById(Long id) {
 
         Author author = authorRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Author not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + id));
 
         return authorMapper.toResponse(author);
     }
 
     @Override
-    public Page<AuthorResponseDto> getAllAuthors(
-            int page,
-            int size,
-            String sortBy,
-            String sortDirection) {
+    public Page<AuthorResponseDto> getAllAuthors(int page, int size, String sortBy, String sortDirection) {
 
         Sort sort = sortDirection.equalsIgnoreCase("desc")
                 ? Sort.by(sortBy).descending()
@@ -51,16 +46,14 @@ public class AuthorServiceImpl implements AuthorService {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        return authorRepository.findAll(pageable)
-                .map(authorMapper::toResponse);
+        return authorRepository.findAll(pageable).map(authorMapper::toResponse);
     }
 
     @Override
     public AuthorResponseDto updateAuthor(Long id, AuthorRequestDto requestDto) {
 
         Author author = authorRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Author not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + id));
 
         author.setFirstName(requestDto.getFirstName());
         author.setLastName(requestDto.getLastName());
@@ -75,8 +68,7 @@ public class AuthorServiceImpl implements AuthorService {
     public void deleteAuthor(Long id) {
 
         Author author = authorRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Author not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + id));
 
         authorRepository.delete(author);
     }
