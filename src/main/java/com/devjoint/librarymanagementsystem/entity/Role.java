@@ -8,4 +8,5 @@ public enum Role {
 
 
 
-// niye string yox enum isletdim?? cunki type-safe dir, Spring Security ile daha rahat isleyir.
+// niye string yox enum is
+// letdim?? cunki type-safe dir, Spring Security ile daha rahat isleyir.

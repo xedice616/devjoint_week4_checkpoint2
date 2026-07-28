@@ -1,5 +1,6 @@
 package com.devjoint.librarymanagementsystem.security;
 
+import com.devjoint.librarymanagementsystem.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -19,10 +20,11 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long jwtExpiration;
 
-    public String generateToken(String email) {
+    public String generateToken(User user) {
 
         return Jwts.builder()
-                .subject(email)
+                .claim("role", user.getRole().name())
+                .subject(user.getEmail())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSignInKey(), Jwts.SIG.HS256)

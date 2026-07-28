@@ -63,6 +63,7 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
 
                 .authorizeHttpRequests(auth -> auth
+
                         .requestMatchers(
                                 "/api/auth/**",
                                 "/swagger-ui/**",
@@ -70,7 +71,17 @@ public class SecurityConfig {
                                 "/v3/api-docs/**"
                         ).permitAll()
 
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/admin/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers("/api/user/**")
+                        .hasAnyRole("USER", "ADMIN")
+
+                        .requestMatchers("/api/common/**")
+                        .authenticated()
+
+                        .anyRequest()
+                        .authenticated()
                 )
 
                 .formLogin(form -> form.disable())
