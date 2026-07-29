@@ -1,5 +1,7 @@
 package com.devjoint.librarymanagementsystem.config;
 
+import com.devjoint.librarymanagementsystem.security.CustomAccessDeniedHandler;
+import com.devjoint.librarymanagementsystem.security.CustomAuthenticationEntryPoint;
 import com.devjoint.librarymanagementsystem.security.CustomUserDetailsService;
 import com.devjoint.librarymanagementsystem.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,9 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomUserDetailsService userDetailsService;
+
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -61,6 +66,11 @@ public class SecurityConfig {
                 )
 
                 .authenticationProvider(authenticationProvider())
+
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
+                )
 
                 .authorizeHttpRequests(auth -> auth
 
