@@ -13,7 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.List;import com.devjoint.librarymanagementsystem.specification.BookSpecification;
+import org.springframework.data.jpa.domain.Specification;
 
 @Service
 @RequiredArgsConstructor
@@ -131,6 +132,25 @@ public class BookServiceImpl implements BookService {
     public List<BookResponseDto> getBooksByPublicationYear(Integer year) {
 
         return bookRepository.findBooksByPublicationYear(year)
+                .stream()
+                .map(bookMapper::toResponse)
+                .toList();
+    }
+
+
+
+    @Override
+    public List<BookResponseDto> filterBooks(
+            String title,
+            Integer year,
+            Boolean available) {
+
+        Specification<Book> specification = Specification.allOf(
+                BookSpecification.hasTitle(title),
+                BookSpecification.hasPublicationYear(year),
+                BookSpecification.isAvailable(available)
+        );
+        return bookRepository.findAll(specification)
                 .stream()
                 .map(bookMapper::toResponse)
                 .toList();

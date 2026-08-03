@@ -16,6 +16,13 @@ public interface BookService {
             String sortBy,
             String sortDirection);
 
+    List<BookResponseDto> filterBooks(
+            String title,
+            Integer year,
+            Boolean available);
+
+
+
     BookResponseDto updateBook(Long id, BookRequestDto requestDto);
     void deleteBook(Long id);
 

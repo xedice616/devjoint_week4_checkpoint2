@@ -99,4 +99,21 @@ public class BookController {
 
 
 
+
+    @GetMapping("/filter")
+    public List<BookResponseDto> filterBooks(
+
+            @RequestParam(required = false) String title,
+
+            @RequestParam(required = false) Integer year,
+
+            @RequestParam(required = false) Boolean available) {
+
+        return bookService.filterBooks(
+                title,
+                year,
+                available
+        );
+    }
+
 }
