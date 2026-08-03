@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 @RestController
 @RequestMapping("/api/books")
 @RequiredArgsConstructor
@@ -65,4 +65,38 @@ public class BookController {
 
         bookService.deleteBook(id);
     }
+
+
+    @GetMapping("/search")
+    public List<BookResponseDto> searchBooksByTitle(
+            @RequestParam String title) {
+
+        return bookService.searchBooksByTitle(title);
+    }
+
+
+    @GetMapping("/available")
+    public List<BookResponseDto> getAvailableBooks() {
+
+        return bookService.getAvailableBooks();
+    }
+
+    @GetMapping("/published-after/{year}")
+    public List<BookResponseDto> getBooksPublishedAfter(
+            @PathVariable Integer year) {
+
+        return bookService.getBooksPublishedAfter(year);
+    }
+
+
+
+    @GetMapping("/publication-year/{year}")
+    public List<BookResponseDto> getBooksByPublicationYear(
+            @PathVariable Integer year) {
+
+        return bookService.getBooksByPublicationYear(year);
+    }
+
+
+
 }

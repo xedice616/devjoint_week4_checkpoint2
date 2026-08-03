@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
@@ -96,4 +98,42 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.delete(book);
     }
+
+
+    @Override
+    public List<BookResponseDto> searchBooksByTitle(String title) {
+
+        return bookRepository.findByTitleContainingIgnoreCase(title)
+                .stream()
+                .map(bookMapper::toResponse)
+                .toList();
+    }
+
+    @Override
+    public List<BookResponseDto> getAvailableBooks() {
+
+        return bookRepository.findByAvailableTrue()
+                .stream()
+                .map(bookMapper::toResponse)
+                .toList();
+    }
+
+    @Override
+    public List<BookResponseDto> getBooksPublishedAfter(Integer year) {
+
+        return bookRepository.findBooksPublishedAfter(year)
+                .stream()
+                .map(bookMapper::toResponse)
+                .toList();
+    }
+
+    @Override
+    public List<BookResponseDto> getBooksByPublicationYear(Integer year) {
+
+        return bookRepository.findBooksByPublicationYear(year)
+                .stream()
+                .map(bookMapper::toResponse)
+                .toList();
+    }
+
 }

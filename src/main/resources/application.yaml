@@ -1,7 +1,7 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:7878/library_management_db
-    username: ${DB_PASSWORD}
+    username: postgres
     password: ${DB_PASSWORD}
 
   jpa:
