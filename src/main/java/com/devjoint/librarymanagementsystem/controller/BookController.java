@@ -116,4 +116,15 @@ public class BookController {
         );
     }
 
+
+
+    @GetMapping("/entity-graph")
+    public List<BookResponseDto> getAllBooksWithAuthorAndLoans() {
+
+        return bookService.getAllBooksWithAuthorAndLoans();
+    }
+
+
+
+
 }

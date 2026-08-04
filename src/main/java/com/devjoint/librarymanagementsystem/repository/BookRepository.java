@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 public interface BookRepository extends JpaRepository<Book, Long>,
         JpaSpecificationExecutor<Book> {
@@ -35,4 +36,12 @@ public interface BookRepository extends JpaRepository<Book, Long>,
             nativeQuery = true
     )
     List<Book> findBooksByPublicationYear(@Param("year") Integer year);
+
+
+
+
+
+    @EntityGraph(attributePaths = {"author", "loans"})
+    List<Book> findAllWithAuthorAndLoans();
+    //elave sorgu sayi azalir bunun sayesinde ve  nperformans daha da yaxsilasdirirlir
 }

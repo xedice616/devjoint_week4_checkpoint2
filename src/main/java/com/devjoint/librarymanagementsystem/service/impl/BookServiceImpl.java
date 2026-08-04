@@ -156,4 +156,13 @@ public class BookServiceImpl implements BookService {
                 .toList();
     }
 
+
+    @Override
+    public List<BookResponseDto> getAllBooksWithAuthorAndLoans() {
+
+        return bookRepository.findAllWithAuthorAndLoans()
+                .stream()
+                .map(bookMapper::toResponse)
+                .toList();
+    }
 }

@@ -32,5 +32,8 @@ public interface BookService {
 
     List<BookResponseDto> getBooksPublishedAfter(Integer year);
 
+
+    List<BookResponseDto> getAllBooksWithAuthorAndLoans();
+
     List<BookResponseDto> getBooksByPublicationYear(Integer year);
 }
