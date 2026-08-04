@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,7 @@ public class LoanServiceImpl implements LoanService {
     private final BookRepository bookRepository;
     private final MemberRepository memberRepository;
     private final LoanMapper loanMapper;
+    @Transactional
 
     @Override
     public LoanResponseDto createLoan(LoanRequestDto requestDto) {
@@ -50,6 +52,17 @@ public class LoanServiceImpl implements LoanService {
         loan.setBorrowDate(LocalDate.now());
         loan.setDueDate(LocalDate.now().plusDays(14));
         loan.setReturnDate(null);
+
+        if (!book.getAvailable()) {
+            throw new IllegalStateException("Book is already borrowed.");
+        }
+
+        book.setAvailable(false);
+
+        bookRepository.save(book);
+
+
+
 
         Loan savedLoan = loanRepository.save(loan);
 
