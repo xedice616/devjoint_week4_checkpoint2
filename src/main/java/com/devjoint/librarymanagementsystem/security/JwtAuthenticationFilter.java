@@ -14,6 +14,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import io.jsonwebtoken.ExpiredJwtException;
 import java.io.IOException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 
 @Component
 @RequiredArgsConstructor
@@ -44,16 +48,33 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (ExpiredJwtException e) {
 
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
             response.setContentType("application/json");
 
             response.getWriter().write("""
-            {
-                "status":401,
-                "error":"Unauthorized",
-                "message":"Token has expired."
-            }
-            """);
+        {
+          "status":401,
+          "error":"Unauthorized",
+          "message":"Token has expired."
+        }
+        """);
+
+            return;
+        }
+        catch (SignatureException |
+               MalformedJwtException |
+               UnsupportedJwtException |
+               IllegalArgumentException e) {
+
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+
+            response.getWriter().write("""
+        {
+          "status":401,
+          "error":"Unauthorized",
+          "message":"Invalid JWT token."
+        }
+        """);
 
             return;
         }

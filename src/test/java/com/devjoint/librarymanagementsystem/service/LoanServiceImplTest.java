@@ -161,4 +161,37 @@ class LoanServiceImplTest {
 
         assertThat(result.getId()).isEqualTo(1L);
     }
+
+    @Test
+    void createLoan_shouldThrowException_whenBookAlreadyBorrowed() {
+
+        LoanRequestDto request = LoanRequestDto.builder()
+                .bookId(1L)
+                .memberId(1L)
+                .build();
+
+        Book book = new Book();
+        book.setId(1L);
+        book.setAvailable(false);
+
+        Member member = new Member();
+        member.setId(1L);
+
+        when(bookRepository.findById(1L))
+                .thenReturn(Optional.of(book));
+
+        when(memberRepository.findById(1L))
+                .thenReturn(Optional.of(member));
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> loanService.createLoan(request)
+        );
+
+        assertThat(exception.getMessage())
+                .isEqualTo("Book is already borrowed.");
+
+        verify(bookRepository, never()).save(any(Book.class));
+        verify(loanRepository, never()).save(any(Loan.class));
+    }
 }

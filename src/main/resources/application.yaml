@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:7878/library_management_db
-    username: postgres
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
   jpa:
@@ -19,5 +19,5 @@ springdoc:
     path: /v3/api-docs
 
 jwt:
-  secret: 4b7f4a0b0d8c6e1f9a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4
-  expiration: 86400000
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION:86400000}

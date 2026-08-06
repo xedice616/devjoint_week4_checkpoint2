@@ -40,8 +40,8 @@ public interface BookRepository extends JpaRepository<Book, Long>,
 
 
 
-
     @EntityGraph(attributePaths = {"author", "loans"})
+    @Query("SELECT b FROM Book b")
     List<Book> findAllWithAuthorAndLoans();
     //elave sorgu sayi azalir bunun sayesinde ve  nperformans daha da yaxsilasdirirlir
 }
