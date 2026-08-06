@@ -47,6 +47,16 @@ The project uses Jakarta Validation annotations including:
 - `@Min`
 
 ---
+## Checkpoint 6 - Transaction Rollback Test
+
+A rollback scenario test was added for the loan transaction.
+
+- Tested transaction behavior when a borrowed book is requested.
+- Verified that an exception is thrown.
+- Verified that neither Book nor Loan is saved when the transaction fails.
+
+---
+
 
 ## Exception Handling
 
