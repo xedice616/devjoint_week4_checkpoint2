@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;import com.devjoint.librarymanagementsystem.specification.BookSpecification;
 import org.springframework.data.jpa.domain.Specification;
-
+import org.springframework.cache.annotation.Cacheable;
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
@@ -40,6 +40,7 @@ public class BookServiceImpl implements BookService {
 
         return bookMapper.toResponse(savedBook);
     }
+    @Cacheable("books")
 
     @Override
     public BookResponseDto getBookById(Long id) {
