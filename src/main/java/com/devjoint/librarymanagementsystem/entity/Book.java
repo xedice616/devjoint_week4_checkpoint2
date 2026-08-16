@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "books")
@@ -45,7 +47,6 @@ public class Book {
     @Builder.Default
     private List<Loan> loans = new ArrayList<>();
 
-
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -56,5 +57,5 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     @Builder.Default
-    private List<Category> categories = new ArrayList<>();
+    private Set<Category> categories = new HashSet<>();
 }

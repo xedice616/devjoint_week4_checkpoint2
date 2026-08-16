@@ -6,39 +6,47 @@ import org.springframework.data.jpa.domain.Specification;
 public class BookSpecification {
 
     public static Specification<Book> hasTitle(String title) {
-        return (root, query, criteriaBuilder) ->
 
-                title == null || title.isBlank()
-                        ? null
-                        : criteriaBuilder.like(
-                        criteriaBuilder.lower(root.get("title")),
-                        "%" + title.toLowerCase() + "%"
-                );
+        return (root, query, criteriaBuilder) -> {
+
+            if (title == null || title.isBlank()) {
+                return criteriaBuilder.conjunction();
+            }
+
+            return criteriaBuilder.like(
+                    criteriaBuilder.lower(root.get("title")),
+                    "%" + title.toLowerCase() + "%"
+            );
+        };
     }
 
     public static Specification<Book> hasPublicationYear(Integer year) {
-        return (root, query, criteriaBuilder) ->
 
-                year == null
-                        ? null
-                        : criteriaBuilder.equal(
-                        root.get("publicationYear"),
-                        year
-                );
+        return (root, query, criteriaBuilder) -> {
+
+            if (year == null) {
+                return criteriaBuilder.conjunction();
+            }
+
+            return criteriaBuilder.equal(
+                    root.get("publicationYear"),
+                    year
+            );
+        };
     }
 
     public static Specification<Book> isAvailable(Boolean available) {
-        return (root, query, criteriaBuilder) ->
 
-                available == null
-                        ? null
-                        : criteriaBuilder.equal(
-                        root.get("available"),
-                        available
-                );
+        return (root, query, criteriaBuilder) -> {
+
+            if (available == null) {
+                return criteriaBuilder.conjunction();
+            }
+
+            return criteriaBuilder.equal(
+                    root.get("available"),
+                    available
+            );
+        };
     }
 }
-
-/*
-Bu class 3 ayrı filtr yaradır:
- */

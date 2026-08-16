@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "categories")
@@ -24,5 +26,5 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     @Builder.Default
-    private List<Book> books = new ArrayList<>();
+    private Set<Book> books = new HashSet<>();
 }

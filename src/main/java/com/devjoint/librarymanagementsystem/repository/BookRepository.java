@@ -1,32 +1,48 @@
 package com.devjoint.librarymanagementsystem.repository;
 
 import com.devjoint.librarymanagementsystem.entity.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import org.springframework.data.jpa.repository.EntityGraph;
 
 public interface BookRepository extends JpaRepository<Book, Long>,
         JpaSpecificationExecutor<Book> {
+
+
     // Derived Query Methods
-    List<Book> findByTitleContainingIgnoreCase(String title);
+
+    Page<Book> findByTitleContainingIgnoreCase(
+            String title,
+            Pageable pageable
+    );
 
     List<Book> findByAvailableTrue();
 
-    List<Book> findByPublicationYearGreaterThanEqual(Integer year);
+    List<Book> findByPublicationYearGreaterThanEqual(
+            Integer year
+    );
+
 
     // JPQL Query
+
     @Query("""
             SELECT b
             FROM Book b
             WHERE b.publicationYear >= :year
             """)
-    List<Book> findBooksPublishedAfter(@Param("year") Integer year);
+    List<Book> findBooksPublishedAfter(
+            @Param("year") Integer year
+    );
+
 
     // Native SQL Query
+
     @Query(
             value = """
                     SELECT *
@@ -35,13 +51,15 @@ public interface BookRepository extends JpaRepository<Book, Long>,
                     """,
             nativeQuery = true
     )
-    List<Book> findBooksByPublicationYear(@Param("year") Integer year);
+    List<Book> findBooksByPublicationYear(
+            @Param("year") Integer year
+    );
 
 
+    // EntityGraph
 
-
-    @EntityGraph(attributePaths = {"author", "loans"})
-    @Query("SELECT b FROM Book b")
+    @EntityGraph(
+            attributePaths = {"author", "loans"}
+    )
     List<Book> findAllWithAuthorAndLoans();
-    //elave sorgu sayi azalir bunun sayesinde ve  nperformans daha da yaxsilasdirirlir
 }

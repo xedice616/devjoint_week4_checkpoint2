@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+
 @RestController
 @RequestMapping("/api/books")
 @RequiredArgsConstructor
@@ -66,14 +68,28 @@ public class BookController {
         bookService.deleteBook(id);
     }
 
-
+    // SEARCH WITH PAGINATION
     @GetMapping("/search")
-    public List<BookResponseDto> searchBooksByTitle(
-            @RequestParam String title) {
+    public Page<BookResponseDto> searchBooksByTitle(
 
-        return bookService.searchBooksByTitle(title);
+            @RequestParam String title,
+
+            @RequestParam(defaultValue = "0") int page,
+
+            @RequestParam(defaultValue = "5") int size,
+
+            @RequestParam(defaultValue = "id") String sortBy,
+
+            @RequestParam(defaultValue = "asc") String sortDirection) {
+
+        return bookService.searchBooksByTitle(
+                title,
+                page,
+                size,
+                sortBy,
+                sortDirection
+        );
     }
-
 
     @GetMapping("/available")
     public List<BookResponseDto> getAvailableBooks() {
@@ -88,8 +104,6 @@ public class BookController {
         return bookService.getBooksPublishedAfter(year);
     }
 
-
-
     @GetMapping("/publication-year/{year}")
     public List<BookResponseDto> getBooksByPublicationYear(
             @PathVariable Integer year) {
@@ -97,34 +111,38 @@ public class BookController {
         return bookService.getBooksByPublicationYear(year);
     }
 
-
-
-
+    // FILTER WITH PAGINATION
     @GetMapping("/filter")
-    public List<BookResponseDto> filterBooks(
+    public Page<BookResponseDto> filterBooks(
 
             @RequestParam(required = false) String title,
 
             @RequestParam(required = false) Integer year,
 
-            @RequestParam(required = false) Boolean available) {
+            @RequestParam(required = false) Boolean available,
+
+            @RequestParam(defaultValue = "0") int page,
+
+            @RequestParam(defaultValue = "5") int size,
+
+            @RequestParam(defaultValue = "id") String sortBy,
+
+            @RequestParam(defaultValue = "asc") String sortDirection) {
 
         return bookService.filterBooks(
                 title,
                 year,
-                available
+                available,
+                page,
+                size,
+                sortBy,
+                sortDirection
         );
     }
-
-
 
     @GetMapping("/entity-graph")
     public List<BookResponseDto> getAllBooksWithAuthorAndLoans() {
 
         return bookService.getAllBooksWithAuthorAndLoans();
     }
-
-
-
-
 }
