@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Set;
 
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
@@ -16,11 +17,11 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024;
 
-    private static final String[] ALLOWED_TYPES = {
+    private static final Set<String> ALLOWED_TYPES = Set.of(
             "image/jpeg",
             "image/png",
             "application/pdf"
-    };
+    );
 
     @Override
     public String uploadFile(MultipartFile file) throws IOException {
@@ -37,16 +38,7 @@ public class FileStorageServiceImpl implements FileStorageService {
 
         String contentType = file.getContentType();
 
-        boolean allowedType = false;
-
-        for (String type : ALLOWED_TYPES) {
-            if (type.equalsIgnoreCase(contentType)) {
-                allowedType = true;
-                break;
-            }
-        }
-
-        if (!allowedType) {
+        if (!ALLOWED_TYPES.contains(contentType)) {
             throw new IllegalArgumentException(
                     "Unsupported file type. Allowed types: JPG, PNG, PDF."
             );
